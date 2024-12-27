@@ -1,0 +1,30 @@
+.container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.image-container {
+    margin-top: 20px;
+}
+
+#screenImage {
+    max-width: 80%;
+}
+body {
+    background-color: #8fcbff;}
+     
+    #resolutionSelect {
+        padding: 10px; /* Ajoute de la marge intérieure pour un meilleur aspect */
+        font-size: 16px; /* Taille de police */
+        border: 1px solid #ccc; /* Ajoute une bordure grise */
+        border-radius: 5px; /* Ajoute des coins arrondis */
+        background-color: #fff; /* Couleur de fond */
+        color: #333; /* Couleur du texte */
+        width: 200px; /* Largeur de l'élément */
+    }
+    
+    /* Pour styliser les options du select */
+    #resolutionSelect option {
+        padding: 10px; /* Ajoute de l'espace autour du texte */
+        font-size: 14px; /* Taille de police */
+    }

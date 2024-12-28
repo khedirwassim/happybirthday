@@ -1,15 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const textField = document.getElementById("textField");
+    const resolutionSelect = document.getElementById("resolutionSelect");
     const backgroundMusic = document.getElementById("backgroundMusic");
+    const screenImage = document.getElementById("screenImage");
 
-    textField.addEventListener("focus", function () {
+    // Jouer la musique quand l'utilisateur clique sur le champ select
+    resolutionSelect.addEventListener("focus", function () {
         backgroundMusic.play();
     });
 
-    // Fonctionnalité existante pour changer les images selon la résolution
-    const resolutionSelect = document.getElementById("resolutionSelect");
-    const screenImage = document.getElementById("screenImage");
-
+    // Fonctionnalité existante pour changer l'image selon la résolution sélectionnée
     resolutionSelect.addEventListener("change", function () {
         const selectedResolution = resolutionSelect.value;
         let imagePath;
@@ -34,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 imagePath = "4K-image.jpg";
                 break;
             default:
-                imagePath = "144p-image.jpg";
+                imagePath = "default-image.jpg";
         }
 
         screenImage.src = imagePath;

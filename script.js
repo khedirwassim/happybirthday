@@ -1,6 +1,16 @@
 document.addEventListener("DOMContentLoaded", function () {
     const resolutionSelect = document.getElementById("resolutionSelect");
     const screenImage = document.getElementById("screenImage");
+    const backgroundMusic = document.getElementById("backgroundMusic");
+
+    // Démarrer la musique après une interaction utilisateur
+    backgroundMusic.play().catch(() => {
+        console.log("Lecture automatique bloquée, en attente d'une interaction utilisateur...");
+    });
+
+    document.body.addEventListener("click", function () {
+        backgroundMusic.play();
+    });
 
     resolutionSelect.addEventListener("change", function () {
         const selectedResolution = resolutionSelect.value;
@@ -22,14 +32,13 @@ document.addEventListener("DOMContentLoaded", function () {
             case "2160":
                 imagePath = "2160p-image.jpg";
                 break;
-             case "4K":
+            case "4K":
                 imagePath = "4K-image.jpg";
                 break;
             default:
-                imagePath = "144p-image.jpg";
+                imagePath = "default-image.jpg";
         }
 
         screenImage.src = imagePath;
     });
 });
-

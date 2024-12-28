@@ -1,30 +1,76 @@
-.container {
-    text-align: center;
-    margin-top: 50px;
-}
-
-.image-container {
-    margin-top: 20px;
-}
-
-#screenImage {
-    max-width: 80%;
-}
+/* Style de base */
 body {
-    background-color: #8fcbff;}
-     
-    #resolutionSelect {
-        padding: 10px; /* Ajoute de la marge intérieure pour un meilleur aspect */
-        font-size: 16px; /* Taille de police */
-        border: 1px solid #ccc; /* Ajoute une bordure grise */
-        border-radius: 5px; /* Ajoute des coins arrondis */
-        background-color: #fff; /* Couleur de fond */
-        color: #333; /* Couleur du texte */
-        width: 200px; /* Largeur de l'élément */
-    }
-    
-    /* Pour styliser les options du select */
-    #resolutionSelect option {
-        padding: 10px; /* Ajoute de l'espace autour du texte */
-        font-size: 14px; /* Taille de police */
-    }
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(120deg, #a6c0fe, #f68084);
+    color: #333;
+    text-align: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    padding: 20px;
+    border: 2px solid white;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+/* Animation de transition pour les images */
+.image-container img {
+    max-width: 300px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    opacity: 1;
+    transform: scale(1);
+}
+
+.image-container img.hidden {
+    opacity: 0;
+    transform: scale(0.8);
+}
+/* Style du champ de sélection */
+select {
+    appearance: none; /* Supprime le style par défaut */
+    background-color: #f3f4f6;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    color: #333;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    width: 250px;
+}
+
+/* Style au survol */
+select:hover {
+    border-color: #007bff;
+}
+
+/* Style lorsque le champ est en focus */
+select:focus {
+    outline: none;
+    border-color: #0056b3;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
+/* Ajout d'une flèche personnalisée */
+select {
+    background-image: url("arrow-down.svg");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 16px;
+}

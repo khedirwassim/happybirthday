@@ -1,14 +1,19 @@
 document.addEventListener("DOMContentLoaded", function () {
     const resolutionSelect = document.getElementById("resolutionSelect");
-    const backgroundMusic = document.getElementById("backgroundMusic");
     const screenImage = document.getElementById("screenImage");
+    const backgroundMusic = document.getElementById("backgroundMusic");
 
-    // Jouer la musique quand l'utilisateur clique sur le champ select
-    resolutionSelect.addEventListener("focus", function () {
+    // Lecture automatique de la musique
+    backgroundMusic.play().catch(() => {
+        console.log("Lecture automatique bloquée, en attente d'une interaction utilisateur...");
+    });
+
+    // Ajouter un événement au cas où la lecture de la musique serait bloquée
+    document.body.addEventListener("click", function () {
         backgroundMusic.play();
     });
 
-    // Fonctionnalité existante pour changer l'image selon la résolution sélectionnée
+    // Gestion du changement de résolution
     resolutionSelect.addEventListener("change", function () {
         const selectedResolution = resolutionSelect.value;
         let imagePath;
@@ -36,6 +41,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 imagePath = "default-image.jpg";
         }
 
-        screenImage.src = imagePath;
+        // Ajout de la classe "hidden" pour l'animation de disparition
+        screenImage.classList.add("hidden");
+
+        // Attendre la fin de l'animation avant de changer l'image
+        setTimeout(() => {
+            screenImage.src = imagePath;
+
+            // Retirer la classe "hidden" pour l'animation d'apparition
+            screenImage.classList.remove("hidden");
+        }, 500); // Correspond au temps défini dans `transition` en CSS
     });
 });

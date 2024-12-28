@@ -1,16 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const resolutionSelect = document.getElementById("resolutionSelect");
-    const screenImage = document.getElementById("screenImage");
+    const textField = document.getElementById("textField");
     const backgroundMusic = document.getElementById("backgroundMusic");
 
-    // Démarrer la musique après une interaction utilisateur
-    backgroundMusic.play().catch(() => {
-        console.log("Lecture automatique bloquée, en attente d'une interaction utilisateur...");
-    });
-
-    document.body.addEventListener("click", function () {
+    textField.addEventListener("focus", function () {
         backgroundMusic.play();
     });
+
+    // Fonctionnalité existante pour changer les images selon la résolution
+    const resolutionSelect = document.getElementById("resolutionSelect");
+    const screenImage = document.getElementById("screenImage");
 
     resolutionSelect.addEventListener("change", function () {
         const selectedResolution = resolutionSelect.value;
@@ -36,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 imagePath = "4K-image.jpg";
                 break;
             default:
-                imagePath = "default-image.jpg";
+                imagePath = "144p-image.jpg";
         }
 
         screenImage.src = imagePath;

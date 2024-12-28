@@ -1,42 +1,29 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const textField = document.getElementById("textField");
-    const backgroundMusic = document.getElementById("backgroundMusic");
-
-    textField.addEventListener("focus", function () {
-        backgroundMusic.play();
-    });
-
-    // Fonctionnalité existante pour changer les images selon la résolution
-    const resolutionSelect = document.getElementById("resolutionSelect");
-    const screenImage = document.getElementById("screenImage");
-
-    resolutionSelect.addEventListener("change", function () {
-        const selectedResolution = resolutionSelect.value;
-        let imagePath;
-
-        switch (selectedResolution) {
-            case "144":
-                imagePath = "144p-image.jpg";
-                break;
-            case "240":
-                imagePath = "240p-image.jpg";
-                break;
-            case "480":
-                imagePath = "480p-image.jpg";
-                break;
-            case "1080":
-                imagePath = "1080p-image.jpg";
-                break;
-            case "2160":
-                imagePath = "2160p-image.jpg";
-                break;
-            case "4K":
-                imagePath = "4K-image.jpg";
-                break;
-            default:
-                imagePath = "144p-image.jpg";
-        }
-
-        screenImage.src = imagePath;
-    });
-});
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résolution d'écran</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Sélectionnez la résolution d'écran Hilda :</h1>
+        <select id="resolutionSelect">
+            <option value="0">0p</option>
+            <option value="144">144p</option>
+            <option value="240">240p</option>
+            <option value="480">480p</option>
+            <option value="1080">1080p</option>
+            <option value="2160">2160p</option>
+            <option value="4K">4 K</option>
+        </select>
+        <input type="text" id="textField" placeholder="Touchez ici pour commencer la musique" />
+        <div class="image-container">
+            <img id="screenImage" src="default-image.jpg" alt="Image par défaut">
+        </div>
+    </div>
+    <audio id="backgroundMusic" src="background-music.mp3" loop></audio>
+    <script src="script.js"></script>
+</body>
+</html>

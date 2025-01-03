@@ -1,28 +1,227 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Résolution d'écran</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fleur et Particules</title>
+
+  <!-- Bootstrap CSS -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+  />
+
+  <!-- Tailwind CSS via CDN -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css"
+    rel="stylesheet"
+  />
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden; /* Pour ne pas avoir de scroll */
+      font-family: sans-serif;
+      color: #fff;
+    }
+
+    /* Le canvas occupe tout l'écran en arrière-plan */
+    #particles-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1; /* Derrière le contenu */
+      background: linear-gradient(
+        -45deg,
+        #ff0084,
+        #3300ff,
+        #e500ff,
+        #00c9ff,
+        #92fe9d
+      );
+      background-size: 400% 400%;
+      animation: gradient 20s ease infinite;
+    }
+
+    /* Animation continue du dégradé derrière les particules */
+    @keyframes gradient {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    /* Conteneur principal centré (pour le texte, la fleur, etc.) */
+    .main-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    /* Petit effet transparent derrière le texte */
+    .message {
+      background: rgba(0, 0, 0, 0.4);
+      padding: 1.5rem;
+      border-radius: 8px;
+      max-width: 600px;
+      margin-bottom: 2rem;
+      transition: opacity 2s;
+      opacity: 0;
+      /* On gérera l'apparition en JS */
+    }
+
+    /* Conteneur de la fleur */
+    .flower-container {
+      width: 180px;
+      height: 180px;
+      position: relative;
+      margin-bottom: 2rem;
+    }
+
+    /* Fleur qui s'ouvre et se ferme (effet "bloom") */
+    .flower {
+      width: 100%;
+      height: 100%;
+      background-image: url('img2.jpg');
+      background-size: cover;
+      background-position: center;
+      border-radius: 50%;
+      animation: bloom 3s ease-in-out infinite alternate;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    }
+
+    @keyframes bloom {
+      0% {
+        transform: scale(0.7);
+      }
+      100% {
+        transform: scale(1.2);
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Sélectionnez la résolution d'écran Hilda :</h1>
-        <select id="resolutionSelect">
-            <option value="0">0p</option>
-            <option value="144">144p</option>
-            <option value="240">240p</option>
-            <option value="480">480p</option>
-            <option value="1080">1080p</option>
-            <option value="2160">2160p</option>
-            <option value="4K">4 K</option>
-        </select>
-        <div class="image-container">
-            <img id="screenImage" src="default-image.jpg" alt="Image par défaut">
-        </div>
+  <!-- Canvas pour les particules -->
+  <canvas id="particles-bg"></canvas>
+
+  <!-- Contenu principal (message + fleur) -->
+  <div class="main-container">
+    <div class="message">
+      <h1 class="text-3xl font-bold mb-2">Pour mon amie</h1>
+      <p class="leading-relaxed">
+        Pardonne-moi.<br />
+        Que cette fleur symbolise mes plus beaux sentiments.<br />
+        <strong>Ru7i Tl3bi.</strong>
+      </p>
     </div>
-    <audio id="backgroundMusic" src="music.mp3" autoplay loop></audio>
-    <script src="script.js"></script>
+
+    <div class="flower-container">
+      <div class="flower"></div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS (optionnel) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Script d'animation des particules -->
+  <script>
+    // === Configuration des particules ===
+    const NUM_PARTICLES = 80; // nombre de particules
+    const SPEED = 0.5; // vitesse max
+    let particles = [];
+
+    // On récupère le canvas et son contexte
+    const canvas = document.getElementById('particles-bg');
+    const ctx = canvas.getContext('2d');
+
+    // Ajuste la taille du canvas à la taille de la fenêtre
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas, false);
+    resizeCanvas();
+
+    // Crée des particules aléatoires
+    function createParticles() {
+      for (let i = 0; i < NUM_PARTICLES; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          r: 2 + Math.random() * 3, // rayon
+          vx: (Math.random() - 0.5) * SPEED,
+          vy: (Math.random() - 0.5) * SPEED
+        });
+      }
+    }
+    createParticles();
+
+    // Anime les particules
+    function animate() {
+      // Efface la frame précédente
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Dessine et déplace chaque particule
+      for (let i = 0; i < NUM_PARTICLES; i++) {
+        const p = particles[i];
+
+        // Mise à jour de la position
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Rebond sur les bords
+        if (p.x < 0 || p.x > canvas.width) p.vx = -p.vx;
+        if (p.y < 0 || p.y > canvas.height) p.vy = -p.vy;
+
+        // Dessine la particule
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, false);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        ctx.fill();
+      }
+
+      // Relie les particules proches (optionnel, mais sympa)
+      for (let i = 0; i < NUM_PARTICLES; i++) {
+        for (let j = i + 1; j < NUM_PARTICLES; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 100) {
+            ctx.beginPath();
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+            ctx.lineWidth = 1;
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    // Apparition en fondu du message
+    document.addEventListener("DOMContentLoaded", function () {
+      const message = document.querySelector(".message");
+      setTimeout(() => {
+        message.style.opacity = 1;
+      }, 500);
+    });
+  </script>
 </body>
 </html>
